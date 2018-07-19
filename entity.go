@@ -8,5 +8,5 @@ type Error struct {
 	Stack       string `protobuf:"bytes,7,opt,name=stack" json:"stack,omitempty"`
 	Created     int64  `protobuf:"varint,8,opt,name=created" json:"created,omitempty"`
 	Code        string `protobuf:"bytes,4,opt,name=code" json:"code,omitempty"`
-	Base        error
+	Base        error  `protobuf:"bytes,10,opt,name=base" json:"base,omitempty"`
 }
