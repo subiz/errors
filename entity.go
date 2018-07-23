@@ -9,4 +9,5 @@ type Error struct {
 	Created     int64  `protobuf:"varint,8,opt,name=created" json:"created,omitempty"`
 	Code        string `protobuf:"bytes,4,opt,name=code" json:"code,omitempty"`
 	Base        error  `protobuf:"bytes,10,opt,name=base" json:"base,omitempty"`
+	RequestId   string `protobuf:"bytes,12,opt,name=request_id" json:"request_id,omitempty"`
 }
