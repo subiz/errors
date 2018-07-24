@@ -11,6 +11,9 @@ import (
 var crc32q = crc32.MakeTable(0xD5828281)
 
 func Wrap(err error, class int, code Stringer, v ...interface{}) *Error {
+	if err == nil {
+		err = &Error{}
+	}
 	mye, ok := err.(*Error)
 	if !ok {
 		e := New(class, code, append(v, err.Error()))
