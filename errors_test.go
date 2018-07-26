@@ -12,10 +12,23 @@ type mes struct {
 
 func (m mes) String() string { return m.s }
 
+func TestMarshal(t *testing.T) {
+	err := New(500, stringer{"x"}, "thanh %d", 4)
+	derr := FromError(err.Error())
+	if err.Hash != derr.Hash ||
+		err.Class != derr.Class ||
+		err.Stack != derr.Stack ||
+		err.Created != derr.Created ||
+		err.Code != derr.Code ||
+		err.RequestId != derr.RequestId {
+		t.Errorf("wrong")
+	}
+}
+
 func TestErrorStack(t *testing.T) {
 	trace()
-	e := New(400, &mes{"hi"})
-	println(e.Error())
+	//e := New(400, &mes{"hi"})
+	//println(e.Error())
 }
 
 func TestErrorWrapStack(t *testing.T) {

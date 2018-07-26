@@ -8,6 +8,12 @@ import (
 	"time"
 )
 
+type stringer struct {
+	s string
+}
+
+func (s stringer) String() string { return s.s }
+
 var crc32q = crc32.MakeTable(0xD5828281)
 
 func Wrap(err error, class int, code Stringer, v ...interface{}) *Error {
@@ -17,7 +23,7 @@ func Wrap(err error, class int, code Stringer, v ...interface{}) *Error {
 	mye, ok := err.(*Error)
 	if !ok {
 		e := New(class, code, append(v, err.Error()))
-		e.Base = err
+		e.Base = New(500, stringer{"base"}, err)
 		return e
 	}
 
@@ -62,6 +68,17 @@ func New(class int, code Stringer, v ...interface{}) *Error {
 	e.Code = code.String()
 	e.Hash = Sprintf("%08x", crc32.Checksum(stack, crc32q))
 	e.Base = &Error{}
+	return e
+}
+
+func FromError(err string) *Error {
+	if !strings.HasPrefix(err, "#ERR ") {
+		return New(500, stringer{"unknown"}, err)
+	}
+	e := &Error{}
+	if err := json.Unmarshal([]byte(err[len("#ERR "):]), e); err != nil {
+		return New(500, stringer{"invalid_json"}, err)
+	}
 	return e
 }
 
