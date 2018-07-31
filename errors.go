@@ -76,8 +76,8 @@ func FromError(err string) *Error {
 		return New(500, stringer{"unknown"}, err)
 	}
 	e := &Error{}
-	if err := json.Unmarshal([]byte(err[len("#ERR "):]), e); err != nil {
-		return New(500, stringer{"invalid_json"}, err)
+	if er := json.Unmarshal([]byte(err[len("#ERR "):]), e); er != nil {
+		return New(500, stringer{"invalid_json_err"}, "%s, %s", er, err)
 	}
 	return e
 }
