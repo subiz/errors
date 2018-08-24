@@ -82,7 +82,19 @@ func FromError(err string) *Error {
 	return e
 }
 
+func (e *Error) GetCode() string {
+	if e == nil {
+		return ""
+	}
+
+	return e.Code
+}
+
 func (e *Error) Error() string {
+	if e == nil {
+		return ""
+	}
+
 	b, err := json.Marshal(e)
 	if err != nil {
 		return "#ERRX " + err.Error() + "(" + strings.Replace(string(getStack()), "\n", "|", -1) + ")"
