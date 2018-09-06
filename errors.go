@@ -90,6 +90,13 @@ func (e *Error) GetCode() string {
 	return e.Code
 }
 
+func (e *Error) Interface() error {
+	if e == nil {
+		return nil
+	}
+	return e
+}
+
 func (e *Error) Error() string {
 	if e == nil {
 		return ""
