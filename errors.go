@@ -17,6 +17,10 @@ func (s stringer) String() string { return s.s }
 var crc32q = crc32.MakeTable(0xD5828281)
 
 func Default(e interface{}) *Error {
+	if e == nil {
+		return nil
+	}
+
 	e1, ok := e.(*Error)
 	if ok {
 		return e1
