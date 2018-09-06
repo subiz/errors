@@ -16,6 +16,20 @@ func (s stringer) String() string { return s.s }
 
 var crc32q = crc32.MakeTable(0xD5828281)
 
+func Default(e interface{}) *Error {
+	e1, ok := e.(*Error)
+	if ok {
+		return e1
+	}
+
+	e2, ok := e.(error)
+	if ok {
+		return Wrap(e2, 500, stringer{"unknown"})
+	}
+
+	return New(500, stringer{"unknown"}, Sprintf("%v", e))
+}
+
 func Wrap(err error, class int, code Stringer, v ...interface{}) *Error {
 	if err == nil {
 		err = &Error{}
