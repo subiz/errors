@@ -77,7 +77,7 @@ func New(class int, code Stringer, v ...interface{}) *Error {
 	}
 	message = Sprintf(format, v...)
 
-	stack := getStack()
+	stack := getStack(5)
 	e := &Error{}
 	e.Description = message
 	e.Class = int32(class)
@@ -122,15 +122,18 @@ func (e *Error) Error() string {
 
 	b, err := json.Marshal(e)
 	if err != nil {
-		return "#ERRX " + err.Error() + "(" + strings.Replace(string(getStack()), "\n", "|", -1) + ")"
+		return "#ERRX " + err.Error() + "(" + strings.Replace(string(getStack(3)), "\n", "|", -1) + ")"
 	}
 	return "#ERR " + string(b)
 }
 
-func getStack() []byte {
+func getStack(skip int) []byte {
 	s := string(debug.Stack())
 	lines := strings.Split(strings.TrimSpace(s), "\n")
-	lines = lines[3:] // ignore unnecessary lines
+	if len(lines) <= skip {
+		skip = len(lines)
+	}
+	lines = lines[skip:] // ignore unnecessary lines
 	out := ""
 	for i, line := range lines {
 		if i%2 == 1 { // filter lines contains file path
