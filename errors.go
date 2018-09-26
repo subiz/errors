@@ -122,7 +122,7 @@ func (e *Error) Error() string {
 
 	b, err := json.Marshal(e)
 	if err != nil {
-		return "#ERRX " + err.Error() + "(" + strings.Replace(string(getStack(3)), "\n", "|", -1) + ")"
+		return "#ERRX " + err.Error() + "(" + strings.Replace(string(getStack(5)), "\n", "|", -1) + ")"
 	}
 	return "#ERR " + string(b)
 }
