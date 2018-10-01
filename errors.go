@@ -77,7 +77,7 @@ func New(class int, code Stringer, v ...interface{}) *Error {
 	}
 	message = Sprintf(format, v...)
 
-	stack := getStack(5)
+	stack := getStack(7)
 	e := &Error{}
 	e.Description = message
 	e.Class = int32(class)
