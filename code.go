@@ -26,10 +26,6 @@ const (
 	E_email_is_invalid          Code = 28
 	E_email_is_used             Code = 29
 	E_content_type_is_not_json  Code = 30
-	E_body_parsing_error        Code = 31
-	E_query_parsing_error       Code = 32
-	E_form_parsing_error        Code = 33
-	E_connection_id_is_invalid Code = 34
 
 	E_token_is_invalid                      Code = 30
 	E_token_expired                         Code = 31
@@ -43,6 +39,11 @@ const (
 	E_invalid_form_mobile_type              Code = 39
 	E_invalid_form_email_type               Code = 40
 	E_permission_not_enough                 Code = 41
+
+	E_body_parsing_error       Code = 52
+	E_query_parsing_error      Code = 53
+	E_form_parsing_error       Code = 54
+	E_connection_id_is_invalid Code = 55
 
 	E_invalid_filestore_credential  Code = 102
 	E_filestore_error               Code = 103
