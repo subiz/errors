@@ -3,36 +3,33 @@ package errors
 import (
 	"encoding/json"
 	"hash/crc32"
+	F "fmt"
+	// "reflect"
 	"runtime/debug"
 	"strings"
 	"time"
 )
 
-type stringer struct {
-	s string
-}
-
-func (s stringer) String() string { return s.s }
-
 var crc32q = crc32.MakeTable(0xD5828281)
 
-func Default(e interface{}) *Error {
-	if e == nil {
-		return nil
-	}
-
+// Default converts e to *Error
+/*func Default(e interface{}) *Error {
 	e1, ok := e.(*Error)
 	if ok {
 		return e1
 	}
 
-	e2, ok := e.(error)
+	err, ok := e.(error)
 	if ok {
-		return Wrap(e2, 500, stringer{"unknown"})
+		return Wrap(err, 500, E_unknown)
 	}
 
-	return New(500, stringer{"unknown"}, Sprintf("%v", e))
-}
+	if e == nil || reflect.ValueOf(e).IsNil() {
+		return nil
+	}
+
+	return New(500, E_unknown, Sprintf("%v", e))
+}*/
 
 func Wrap(err error, class int, code Stringer, v ...interface{}) *Error {
 	if err == nil {
@@ -41,7 +38,7 @@ func Wrap(err error, class int, code Stringer, v ...interface{}) *Error {
 	mye, ok := err.(*Error)
 	if !ok {
 		e := New(class, code, append(v, err.Error()))
-		e.Base = New(500, stringer{"base"}, err)
+		e.Root = err.Error()
 		return e
 	}
 
@@ -84,22 +81,23 @@ func New(class int, code Stringer, v ...interface{}) *Error {
 	e.Stack = string(stack)
 	e.Created = time.Now().UnixNano()
 	e.Code = code.String()
-	e.Hash = Sprintf("%08x", crc32.Checksum(stack, crc32q))
-	e.Base = &Error{}
+	e.Hash = F.Sprintf("%08x", crc32.Checksum(stack, crc32q))
 	return e
 }
 
-func FromError(err string) *Error {
+// FromString unmarshal an error string to *Error
+func FromString(err string) *Error {
 	if !strings.HasPrefix(err, "#ERR ") {
-		return New(500, stringer{"unknown"}, err)
+		return New(500, E_unknown, err)
 	}
 	e := &Error{}
 	if er := json.Unmarshal([]byte(err[len("#ERR "):]), e); er != nil {
-		return New(500, stringer{"invalid_json_err"}, "%s, %s", er, err)
+		return New(500, E_json_marshal_error, "%s, %s", er, err)
 	}
 	return e
 }
 
+// GetCode returns code of the error
 func (e *Error) GetCode() string {
 	if e == nil {
 		return ""
@@ -108,6 +106,9 @@ func (e *Error) GetCode() string {
 	return e.Code
 }
 
+// Interface returns error interface of *Error.
+// If e is nil return interface(nil, nil) instead of interface(*Error, nil) so
+// the check `if e.Interface() == nil {}` will be true
 func (e *Error) Interface() error {
 	if e == nil {
 		return nil
@@ -115,6 +116,7 @@ func (e *Error) Interface() error {
 	return e
 }
 
+// Error returns string representation of an Error
 func (e *Error) Error() string {
 	if e == nil {
 		return ""
