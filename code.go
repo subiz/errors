@@ -42,6 +42,9 @@ const (
 	E_filestore_write_error                      Code = 104
 	E_filestore_read_error                       Code = 105
 	E_filestore_acl_error                        Code = 106
+	E_redis_client_is_uninitialized              Code = 150
+	E_cannot_connect_to_redis                    Code = 151
+	E_redis_error                                Code = 152
 	E_kv_key_not_found                           Code = 1500
 	E_subscription_not_found                     Code = 1012
 	E_payment_method_not_found                   Code = 1013
