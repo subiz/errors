@@ -13,8 +13,8 @@ type mes struct {
 func (m mes) String() string { return m.s }
 
 func TestMarshal(t *testing.T) {
-	err := New(500, stringer{"x"}, "thanh %d", 4)
-	derr := FromError(err.Error())
+	err := New(500, E_unknown, "thanh %d", 4)
+	derr := FromString(err.Error())
 	if err.Hash != derr.Hash ||
 		err.Class != derr.Class ||
 		err.Stack != derr.Stack ||
