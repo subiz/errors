@@ -53,3 +53,60 @@ func TestErrorWrapError(t *testing.T) {
 	e2 := Wrap(e, 500, &mes{"hi2"}, "c", "d")
 	println(e2.Error())
 }
+
+func TestIsSystemPath(t *testing.T) {
+	tcs := []struct {
+		path   string
+		expect bool
+	}{
+		{"/usr/local/go/src/runtime/debug/stack.go:24", true},
+		{"", false},
+		{"/root/go/src/git.subiz.net/api/vendor/errors/errors.go:133", false},
+	}
+
+	for _, tc := range tcs {
+		if out := isSystemPath(tc.path); out != tc.expect {
+			t.Errorf("expect %v, got %v for path %s", tc.expect, out, tc.path)
+		}
+	}
+}
+
+func TestTrimOutPrefix(t *testing.T) {
+	tcs := []struct {
+		str, prefix, expect string
+	}{
+		{"123b456", "b", "456"},
+		{"123  456", " ", " 456"},
+		{"12b3b456", "b", "3b456"},
+		{"", "b", ""},
+		{"123", "b", "123"},
+		{"123", "123", ""},
+		{"123", "1234", "123"},
+	}
+
+	for _, tc := range tcs {
+		if out := trimOutPrefix(tc.str, tc.prefix); out != tc.expect {
+			t.Errorf("expect %v, got %v, for str %s and prefix %s", tc.expect, out, tc.str, tc.prefix)
+		}
+	}
+}
+
+func TestTrimToPrefix(t *testing.T) {
+	tcs := []struct {
+		str, prefix, expect string
+	}{
+		{"123b456", "b", "b456"},
+		{"123  456", " ", "  456"},
+		{"12b3b456", "b", "b3b456"},
+		{"", "b", ""},
+		{"123", "b", "123"},
+		{"123", "123", "123"},
+		{"123", "1234", "123"},
+	}
+
+	for _, tc := range tcs {
+		if out := trimToPrefix(tc.str, tc.prefix); out != tc.expect {
+			t.Errorf("expect %v, got %v, for str %s and prefix %s", tc.expect, out, tc.str, tc.prefix)
+		}
+	}
+}

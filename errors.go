@@ -2,8 +2,8 @@ package errors
 
 import (
 	"encoding/json"
-	"hash/crc32"
 	F "fmt"
+	"hash/crc32"
 	// "reflect"
 	"runtime/debug"
 	"strings"
@@ -11,25 +11,6 @@ import (
 )
 
 var crc32q = crc32.MakeTable(0xD5828281)
-
-// Default converts e to *Error
-/*func Default(e interface{}) *Error {
-	e1, ok := e.(*Error)
-	if ok {
-		return e1
-	}
-
-	err, ok := e.(error)
-	if ok {
-		return Wrap(err, 500, E_unknown)
-	}
-
-	if e == nil || reflect.ValueOf(e).IsNil() {
-		return nil
-	}
-
-	return New(500, E_unknown, Sprintf("%v", e))
-}*/
 
 func Wrap(err error, class int, code Stringer, v ...interface{}) *Error {
 	if err == nil {
@@ -74,7 +55,7 @@ func New(class int, code Stringer, v ...interface{}) *Error {
 	}
 	message = Sprintf(format, v...)
 
-	stack := getStack(7)
+	stack := getStack()
 	e := &Error{}
 	e.Description = message
 	e.Class = int32(class)
@@ -124,24 +105,33 @@ func (e *Error) Error() string {
 
 	b, err := json.Marshal(e)
 	if err != nil {
-		return "#ERRX " + err.Error() + "(" + strings.Replace(string(getStack(5)), "\n", "|", -1) + ")"
+		return "#ERRX " + err.Error() + "(" + strings.Replace(string(getStack()), "\n", "|", -1) + ")"
 	}
 	return "#ERR " + string(b)
 }
 
-func getStack(skip int) []byte {
+func getStack() []byte {
 	s := string(debug.Stack())
 	lines := strings.Split(strings.TrimSpace(s), "\n")
-	if len(lines) <= skip {
-		skip = len(lines)
-	}
-	lines = lines[skip:] // ignore unnecessary lines
 	out := ""
+	lines = lines[1:]
 	for i, line := range lines {
 		if i%2 == 1 { // filter lines contains file path
 			f := removeLastPlusSign(strings.TrimSpace(line))
 			f = splitLineNumber(f)
-			out += f + "\n"
+			if isSystemPath(f) {
+				continue
+			}
+
+			f = trimToPrefix(f, "/vendor/")
+			if !strings.HasPrefix(f, "/vendor") {
+				f = trimOutPrefix(f, "/git.subiz.net/")
+				f = trimOutPrefix(f, "/github.com/")
+				f = trimOutPrefix(f, "/gitlab.com/")
+				f = trimOutPrefix(f, "/bitbucket.org/")
+				f = trimOutPrefix(f, "/gopkg.in/")
+			}
+			out += f + "  "
 		}
 	}
 	return []byte(out)
@@ -166,4 +156,34 @@ func splitLineNumber(s string) string {
 
 	line := split[len(split)-1]
 	return strings.Join(split[0:len(split)-1], ":") + ":" + line
+}
+
+// isSystemPath tells whether a file is in system golang packages
+func isSystemPath(path string) bool {
+	if strings.Contains(path, "/git.subiz.net/errors/") {
+		return true
+	}
+	return strings.HasPrefix(path, "/usr/local/go/src")
+}
+
+// trimToPrefix remove all the characters before the prefix
+// its return the original string if not found prefix in str
+func trimToPrefix(str, prefix string) string {
+	splits := strings.Split(str, prefix)
+	if len(splits) <= 1 {
+		return str
+	}
+
+	return prefix + strings.Join(splits[1:], prefix)
+}
+
+// trimOutPrefix remove all the characters before AND the prefix
+// its return the original string if not found prefix in str
+func trimOutPrefix(str, prefix string) string {
+	splits := strings.Split(str, prefix)
+	if len(splits) <= 1 {
+		return str
+	}
+
+	return strings.Join(splits[1:], prefix)
 }
