@@ -1,18 +1,47 @@
+// This package lets you see which line of code has created an error along with its call stack.
+//
+//     err := readDatabase()
+//     fmt.Println(err.(*errors.Error).Stack)
+//
+//
+//    account/core/account.go:26
+//    /vendor/git.subiz.net/header/account/account.pb.go:3306
+//    /vendor/git.subiz.net/goutils/grpc/grpc.go:86
+//    /vendor/git.subiz.net/goutils/grpc/grpc.go:87
+//    /vendor/git.subiz.net/header/account/account.pb.go:3308
+//    /vendor/google.golang.org/grpc/server.go:681
 package errors
 
 import (
 	"encoding/json"
-	F "fmt"
-	"hash/crc32"
-	// "reflect"
-	"runtime/debug"
+	"fmt"
+	"runtime"
+	"strconv"
 	"strings"
 	"time"
 )
 
-var crc32q = crc32.MakeTable(0xD5828281)
+// Error describe an error. It implements the standard golang error interface.
+type Error struct {
+	// Give more detail about the error
+	Description string `protobuf:"bytes,2,opt,name=description" json:"description,omitempty"`
+	Debug       string `protobuf:"bytes,3,opt,name=debug" json:"debug,omitempty"`
+	// HTTP code, could be 400, 500 or whatsoever
+	Class       int32  `protobuf:"varint,6,opt,name=class" json:"class,omitempty"`
+	// Call stack of error (stripped)
+	Stack       string `protobuf:"bytes,7,opt,name=stack" json:"stack,omitempty"`
+	// Creation time in nanosecond
+	Created     int64  `protobuf:"varint,8,opt,name=created" json:"created,omitempty"`
+	// Should contains the unique code for an error
+	Code        string `protobuf:"bytes,4,opt,name=code" json:"code,omitempty"`
+	// Describe root cause of error after being wrapped
+	Root        string `protobuf:"bytes,10,opt,name=base" json:"root,omitempty"`
+	// ID of the http (rpc) request which causes the error
+	RequestId   string `protobuf:"bytes,12,opt,name=request_id" json:"request_id,omitempty"`
+}
 
-func Wrap(err error, class int, code Stringer, v ...interface{}) *Error {
+// Wrap converts a random error to an `*errors.Error`, information of the old error stored in Root field.
+func Wrap(err error, class int, code fmt.Stringer, v ...interface{}) *Error {
 	if err == nil {
 		err = &Error{}
 	}
@@ -40,7 +69,7 @@ func Wrap(err error, class int, code Stringer, v ...interface{}) *Error {
 
 // New returns an error with the supplied message.
 // New also records the stack trace at the point it was called.
-func New(class int, code Stringer, v ...interface{}) *Error {
+func New(class int, code fmt.Stringer, v ...interface{}) *Error {
 	var format, message string
 	if len(v) == 0 {
 		format = ""
@@ -53,16 +82,14 @@ func New(class int, code Stringer, v ...interface{}) *Error {
 			v = v[1:]
 		}
 	}
-	message = Sprintf(format, v...)
+	message = fmt.Sprintf(format, v...)
 
-	stack := getStack()
 	e := &Error{}
 	e.Description = message
 	e.Class = int32(class)
-	e.Stack = string(stack)
+	e.Stack = getStack(1)
 	e.Created = time.Now().UnixNano()
 	e.Code = code.String()
-	e.Hash = F.Sprintf("%08x", crc32.Checksum(stack, crc32q))
 	return e
 }
 
@@ -103,59 +130,48 @@ func (e *Error) Error() string {
 		return ""
 	}
 
-	b, err := json.Marshal(e)
-	if err != nil {
-		return "#ERRX " + err.Error() + "(" + strings.Replace(string(getStack()), "\n", "|", -1) + ")"
-	}
+	b, _ := json.Marshal(e)
 	return "#ERR " + string(b)
 }
 
-func getStack() []byte {
-	s := string(debug.Stack())
-	lines := strings.Split(strings.TrimSpace(s), "\n")
-	out := ""
-	lines = lines[1:]
-	for i, line := range lines {
-		if i%2 == 1 { // filter lines contains file path
-			f := removeLastPlusSign(strings.TrimSpace(line))
-			f = splitLineNumber(f)
-			if isSystemPath(f) {
-				continue
-			}
-
-			f = trimToPrefix(f, "/vendor/")
-			if !strings.HasPrefix(f, "/vendor") {
-				f = trimOutPrefix(f, "/git.subiz.net/")
-				f = trimOutPrefix(f, "/github.com/")
-				f = trimOutPrefix(f, "/gitlab.com/")
-				f = trimOutPrefix(f, "/bitbucket.org/")
-				f = trimOutPrefix(f, "/gopkg.in/")
-			}
-			out += f + "  "
+// getStack returns 20 closest stacktrace, included file paths and line numbers
+// it will ignore all system path, path which is vendor is striped to /vendor/
+// skip: number of stack ignored
+func getStack(skip int) string {
+	stack := make([]uintptr, 20)
+	var sb strings.Builder
+	// skip one system stack, the this current stack line
+	length := runtime.Callers(2+skip, stack[:])
+	for i := 0; i < length; i++ {
+		pc := stack[i]
+		// pc - 1 because the program counters we use are usually return addresses,
+		// and we want to show the line that corresponds to the function call
+		f := runtime.FuncForPC(pc)
+		file, line := f.FileLine(pc - 1)
+		// dont report system path
+		if isSystemPath(file) {
+			continue
 		}
-	}
-	return []byte(out)
-}
 
-func removeLastPlusSign(s string) string {
-	split := strings.Split(s, " ")
-	if len(split) < 2 {
-		return s
-	}
-	if !strings.HasPrefix(split[len(split)-1], "+0x") {
-		return s
-	}
-	return strings.Join(split[0:len(split)-1], " ")
-}
+		file = trimToPrefix(file, "/vendor/")
 
-func splitLineNumber(s string) string {
-	split := strings.Split(s, ":")
-	if len(split) < 2 {
-		return s
-	}
+		// trim out common provider since most of go projects are hosted
+		// in single host, there is no need to include them in the call stack
+		// remove them help keeping the call stack smaller, navigatiing easier
+		if !strings.HasPrefix(file, "/vendor") {
+			file = trimOutPrefix(file, "/git.subiz.net/")
+			file = trimOutPrefix(file, "/github.com/")
+			file = trimOutPrefix(file, "/gitlab.com/")
+			file = trimOutPrefix(file, "/bitbucket.org/")
+			file = trimOutPrefix(file, "/gopkg.in/")
+		}
 
-	line := split[len(split)-1]
-	return strings.Join(split[0:len(split)-1], ":") + ":" + line
+		sb.WriteString(file)
+		sb.WriteString(":")
+		sb.WriteString(strconv.Itoa(line))
+		sb.WriteString("\n")
+	}
+	return sb.String()
 }
 
 // isSystemPath tells whether a file is in system golang packages

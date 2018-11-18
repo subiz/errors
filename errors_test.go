@@ -2,7 +2,6 @@ package errors
 
 import (
 	"runtime"
-	_ "strings"
 	"testing"
 )
 
@@ -15,8 +14,7 @@ func (m mes) String() string { return m.s }
 func TestMarshal(t *testing.T) {
 	err := New(500, E_unknown, "thanh %d", 4)
 	derr := FromString(err.Error())
-	if err.Hash != derr.Hash ||
-		err.Class != derr.Class ||
+	if err.Class != derr.Class ||
 		err.Stack != derr.Stack ||
 		err.Created != derr.Created ||
 		err.Code != derr.Code ||
@@ -25,8 +23,14 @@ func TestMarshal(t *testing.T) {
 	}
 }
 
+func foo() error   { return bar() }
+func bar() error  { return New(500, E_unknown) }
+func hello() error { return foo() }
+
 func TestErrorStack(t *testing.T) {
-	trace()
+	//trace()
+	err := hello().(*Error)
+	println(err.Stack)
 	//e := New(400, &mes{"hi"})
 	//println(e.Error())
 }
@@ -108,5 +112,11 @@ func TestTrimToPrefix(t *testing.T) {
 		if out := trimToPrefix(tc.str, tc.prefix); out != tc.expect {
 			t.Errorf("expect %v, got %v, for str %s and prefix %s", tc.expect, out, tc.str, tc.prefix)
 		}
+	}
+}
+
+func BenchmarkGetStack(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		getStack()
 	}
 }
