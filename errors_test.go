@@ -1,7 +1,6 @@
 package errors
 
 import (
-	"runtime"
 	"testing"
 )
 
@@ -35,29 +34,6 @@ func TestErrorStack(t *testing.T) {
 	//println(e.Error())
 }
 
-func TestErrorWrapStack(t *testing.T) {
-	trace()
-	err := Errorf("thanh %d", 4)
-	e := Wrap(err, 400, &mes{"hi"}, "a", "b")
-	println(e.Error())
-}
-
-func trace() {
-	pc := make([]uintptr, 10) // at least 1 entry needed
-	runtime.Callers(2, pc)
-	f := runtime.FuncForPC(pc[0])
-	// file, line := f.FileLine(pc[0])
-	Printf("\nTEST %s\n", f.Name())
-}
-
-func TestErrorWrapError(t *testing.T) {
-	trace()
-	err := Errorf("thanh %d", 4)
-	e := Wrap(err, 0, &mes{"hi"}, "a", "b")
-	e2 := Wrap(e, 500, &mes{"hi2"}, "c", "d")
-	println(e2.Error())
-}
-
 func TestIsSystemPath(t *testing.T) {
 	tcs := []struct {
 		path   string
@@ -86,6 +62,8 @@ func TestTrimOutPrefix(t *testing.T) {
 		{"123", "b", "123"},
 		{"123", "123", ""},
 		{"123", "1234", "123"},
+		{"123", "23", ""},
+		{"123", "5", "123"},
 	}
 
 	for _, tc := range tcs {
@@ -106,6 +84,7 @@ func TestTrimToPrefix(t *testing.T) {
 		{"123", "b", "123"},
 		{"123", "123", "123"},
 		{"123", "1234", "123"},
+		{"123", "23", "23"},
 	}
 
 	for _, tc := range tcs {
@@ -117,6 +96,20 @@ func TestTrimToPrefix(t *testing.T) {
 
 func BenchmarkGetStack(b *testing.B) {
 	for n := 0; n < b.N; n++ {
-		getStack()
+		getStack(0)
+	}
+}
+
+
+func BenchmarkTrimToPrefix(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		trimToPrefix("12b3b456", "b")
+	}
+}
+
+func BenchmarkIsSystemPath(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		isSystemPath("/usr/local/go/src")
+		isSystemPath("abcdef/git.subiz.net/errors/")
 	}
 }

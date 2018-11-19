@@ -185,21 +185,19 @@ func isSystemPath(path string) bool {
 // trimToPrefix remove all the characters before the prefix
 // its return the original string if not found prefix in str
 func trimToPrefix(str, prefix string) string {
-	splits := strings.Split(str, prefix)
-	if len(splits) <= 1 {
+	i := strings.Index(str, prefix)
+	if i < 0 {
 		return str
 	}
-
-	return prefix + strings.Join(splits[1:], prefix)
+	return str[i:]
 }
 
 // trimOutPrefix remove all the characters before AND the prefix
 // its return the original string if not found prefix in str
 func trimOutPrefix(str, prefix string) string {
-	splits := strings.Split(str, prefix)
-	if len(splits) <= 1 {
+		i := strings.Index(str, prefix)
+	if i < 0 {
 		return str
 	}
-
-	return strings.Join(splits[1:], prefix)
+	return str[i+len(prefix):]
 }
