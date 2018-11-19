@@ -27,21 +27,21 @@ type Error struct {
 	Description string `protobuf:"bytes,2,opt,name=description" json:"description,omitempty"`
 	Debug       string `protobuf:"bytes,3,opt,name=debug" json:"debug,omitempty"`
 	// HTTP code, could be 400, 500 or whatsoever
-	Class       int32  `protobuf:"varint,6,opt,name=class" json:"class,omitempty"`
+	Class int32 `protobuf:"varint,6,opt,name=class" json:"class,omitempty"`
 	// Call stack of error (stripped)
-	Stack       string `protobuf:"bytes,7,opt,name=stack" json:"stack,omitempty"`
+	Stack string `protobuf:"bytes,7,opt,name=stack" json:"stack,omitempty"`
 	// Creation time in nanosecond
-	Created     int64  `protobuf:"varint,8,opt,name=created" json:"created,omitempty"`
+	Created int64 `protobuf:"varint,8,opt,name=created" json:"created,omitempty"`
 	// Should contains the unique code for an error
-	Code        string `protobuf:"bytes,4,opt,name=code" json:"code,omitempty"`
+	Code string `protobuf:"bytes,4,opt,name=code" json:"code,omitempty"`
 	// Describe root cause of error after being wrapped
-	Root        string `protobuf:"bytes,10,opt,name=base" json:"root,omitempty"`
+	Root string `protobuf:"bytes,10,opt,name=base" json:"root,omitempty"`
 	// ID of the http (rpc) request which causes the error
-	RequestId   string `protobuf:"bytes,12,opt,name=request_id" json:"request_id,omitempty"`
+	RequestId string `protobuf:"bytes,12,opt,name=request_id" json:"request_id,omitempty"`
 }
 
 // Wrap converts a random error to an `*errors.Error`, information of the old error stored in Root field.
-func Wrap(err error, class int, code fmt.Stringer, v ...interface{}) *Error {
+func Wrap(err error, class int, code Code, v ...interface{}) *Error {
 	if err == nil {
 		err = &Error{}
 	}
@@ -69,7 +69,7 @@ func Wrap(err error, class int, code fmt.Stringer, v ...interface{}) *Error {
 
 // New returns an error with the supplied message.
 // New also records the stack trace at the point it was called.
-func New(class int, code fmt.Stringer, v ...interface{}) *Error {
+func New(class int, code Code, v ...interface{}) *Error {
 	var format, message string
 	if len(v) == 0 {
 		format = ""

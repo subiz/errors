@@ -70,6 +70,9 @@ const (
 	E_account_id_is_invalid      Code = 174
 	E_ip_is_blocked              Code = 175
 	E_answer_is_wrong            Code = 176
+	E_url_is_not_whitelisted     Code = 177
+	E_user_is_banned             Code = 178
+	E_domain_is_not_whitelisted  Code = 179
 
 	E_kv_key_not_found                           Code = 1500
 	E_subscription_not_found                     Code = 1012
