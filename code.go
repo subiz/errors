@@ -102,11 +102,14 @@ const (
 	E_auto_charge_is_not_enabled                 Code = 1037
 	E_stripe_customer_is_not_valid               Code = 1038
 	E_invoice_duedate_empty                      Code = 1039
-	E_kafka_rpc_timeout                          Code = 2150
-	E_s3_call_error                              Code = 1503
-	E_pdf_generate_error                         Code = 1504
-	E_subscription_started_is_invalid            Code = 1505
-	E_subscription_is_nil                        Code = 1506
+
+	E_kafka_rpc_timeout Code = 2150
+	E_kafka_error       Code = 2151
+
+	E_s3_call_error                   Code = 1503
+	E_pdf_generate_error              Code = 1504
+	E_subscription_started_is_invalid Code = 1505
+	E_subscription_is_nil             Code = 1506
 
 	E_ticket_list_anchor_is_invalid     Code = 1600
 	E_elastic_search_error              Code = 1601
