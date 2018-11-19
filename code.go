@@ -28,7 +28,6 @@ const (
 	E_email_is_used             Code = 29
 	E_content_type_is_not_json  Code = 30
 
-	E_token_is_invalid                      Code = 30
 	E_token_expired                         Code = 31
 	E_agent_is_not_active                   Code = 32
 	E_wrong_password                        Code = 33
@@ -40,6 +39,8 @@ const (
 	E_invalid_form_mobile_type              Code = 39
 	E_invalid_form_email_type               Code = 40
 	E_permission_not_enough                 Code = 41
+	E_token_is_invalid                      Code = 42
+	E_invalid_datetime                      Code = 43
 
 	E_body_parsing_error       Code = 52
 	E_query_parsing_error      Code = 53
@@ -74,21 +75,29 @@ const (
 	E_user_is_banned             Code = 178
 	E_domain_is_not_whitelisted  Code = 179
 
-	E_attribute_name_is_empty       Code = 190
-	E_attribute_type_is_empty       Code = 191
-	E_attribute_key_is_empty        Code = 192
-	E_attribyte_type_is_unsupported Code = 193
-	E_attribute_list_is_empty       Code = 194
-	E_attribute_key_is_invalid Code = 195
-	E_too_many_attribute Code = 196
-	E_attribute_key_not_found Code = 197
+	E_attribute_name_is_empty        Code = 190
+	E_attribute_type_is_empty        Code = 191
+	E_attribute_key_is_empty         Code = 192
+	E_attribyte_type_is_unsupported  Code = 193
+	E_attribute_list_is_empty        Code = 194
+	E_attribute_key_is_invalid       Code = 195
+	E_too_many_attribute             Code = 196
+	E_attribute_key_not_found        Code = 197
 	E_attribute_list_item_is_invalid Code = 198
-	E_attribute_datetime_is_invalid Code =199
-	E_attribute_boolean_is_invalid Code = 200
-	E_attribute_number_is_invalid Code = 201
-	E_attribute_text_is_invalid Code = 202
+	E_attribute_datetime_is_invalid  Code = 199
+	E_attribute_boolean_is_invalid   Code = 200
+	E_attribute_number_is_invalid    Code = 201
+	E_attribute_text_is_invalid      Code = 202
 
 	E_text_too_long Code = 203
+
+	E_automation_not_found       Code = 204
+	E_segmentation_not_found     Code = 205
+	E_segmentation_id_is_invalid Code = 206
+	E_event_id_is_invalid        Code = 207
+	E_note_target_id_is_invalid Code = 208
+	E_note_id_is_invalid = 209
+	E_unknown_segmentation_condition_type = 210
 
 	E_kv_key_not_found                           Code = 1500
 	E_subscription_not_found                     Code = 1012
