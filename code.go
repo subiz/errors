@@ -74,6 +74,22 @@ const (
 	E_user_is_banned             Code = 178
 	E_domain_is_not_whitelisted  Code = 179
 
+	E_attribute_name_is_empty       Code = 190
+	E_attribute_type_is_empty       Code = 191
+	E_attribute_key_is_empty        Code = 192
+	E_attribyte_type_is_unsupported Code = 193
+	E_attribute_list_is_empty       Code = 194
+	E_attribute_key_is_invalid Code = 195
+	E_too_many_attribute Code = 196
+	E_attribute_key_not_found Code = 197
+	E_attribute_list_item_is_invalid Code = 198
+	E_attribute_datetime_is_invalid Code =199
+	E_attribute_boolean_is_invalid Code = 200
+	E_attribute_number_is_invalid Code = 201
+	E_attribute_text_is_invalid Code = 202
+
+	E_text_too_long Code = 203
+
 	E_kv_key_not_found                           Code = 1500
 	E_subscription_not_found                     Code = 1012
 	E_payment_method_not_found                   Code = 1013
