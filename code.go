@@ -139,4 +139,6 @@ const (
 	E_exchange_rate_is_invalid     Code = 4008
 	E_working_day_is_invalid       Code = 4009
 	E_holiday_is_invalid           Code = 4010
+
+	E_content_id_missing Code = 4100
 )
