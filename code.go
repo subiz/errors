@@ -6,6 +6,7 @@ type Code int
 const (
 	E_no_error                  Code = 0
 	E_unknown                   Code = 1
+	E_internal_error            Code = 2
 	E_missing_account_id        Code = 10
 	E_proto_marshal_error       Code = 11
 	E_database_error            Code = 12
@@ -136,4 +137,6 @@ const (
 	E_currency_is_invalid          Code = 4006
 	E_exchange_rate_not_found      Code = 4007
 	E_exchange_rate_is_invalid     Code = 4008
+	E_working_day_is_invalid       Code = 4009
+	E_holiday_is_invalid           Code = 4010
 )
