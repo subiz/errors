@@ -47,6 +47,8 @@ const (
 	E_form_parsing_error       Code = 54
 	E_connection_id_is_invalid Code = 55
 
+	E_agent_id_is_invalid Code = 56
+
 	E_invalid_filestore_credential  Code = 102
 	E_filestore_error               Code = 103
 	E_filestore_write_error         Code = 104
