@@ -198,5 +198,8 @@ const (
 	E_working_day_is_invalid       Code = iota
 	E_holiday_is_invalid           Code = iota
 
+	E_service_level_agreement_not_found  Code = iota
+	E_service_level_agreement_is_invalid Code = iota
+
 	E_content_id_missing Code = iota
 )
