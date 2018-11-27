@@ -67,6 +67,18 @@ func Wrap(err error, class int, code Code, v ...interface{}) *Error {
 	return mye
 }
 
+// Errorf creates default *Error with description
+// This method does not include stacktrace into returned object
+func Errorf(format string, v ...interface{}) *Error {
+	desc := fmt.Sprintf(format, v...)
+	return &Error{
+		Description: desc,
+		Class:       int32(500),
+		Created:     time.Now().UnixNano(),
+		Code:        E_unknown.String(),
+	}
+}
+
 // New returns an error with the supplied message.
 // New also records the stack trace at the point it was called.
 func New(class int, code Code, v ...interface{}) *Error {
@@ -101,25 +113,6 @@ func FromString(err string) *Error {
 	e := &Error{}
 	if er := json.Unmarshal([]byte(err[len("#ERR "):]), e); er != nil {
 		return New(500, E_json_marshal_error, "%s, %s", er, err)
-	}
-	return e
-}
-
-// GetCode returns code of the error
-func (e *Error) GetCode() string {
-	if e == nil {
-		return ""
-	}
-
-	return e.Code
-}
-
-// Interface returns error interface of *Error.
-// If e is nil return interface(nil, nil) instead of interface(*Error, nil) so
-// the check `if e.Interface() == nil {}` will be true
-func (e *Error) Interface() error {
-	if e == nil {
-		return nil
 	}
 	return e
 }
@@ -195,7 +188,7 @@ func trimToPrefix(str, prefix string) string {
 // trimOutPrefix remove all the characters before AND the prefix
 // its return the original string if not found prefix in str
 func trimOutPrefix(str, prefix string) string {
-		i := strings.Index(str, prefix)
+	i := strings.Index(str, prefix)
 	if i < 0 {
 		return str
 	}
