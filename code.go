@@ -28,6 +28,7 @@ const (
 	E_email_is_invalid          Code = iota
 	E_email_is_used             Code = iota
 	E_content_type_is_not_json  Code = iota
+	E_missing_url               Code = iota
 
 	E_token_expired                         Code = iota
 	E_agent_is_not_active                   Code = iota
