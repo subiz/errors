@@ -203,4 +203,6 @@ const (
 	E_service_level_agreement_is_invalid Code = iota
 
 	E_content_id_missing Code = iota
+
+	E_fcm_token_not_found Code = iota
 )
