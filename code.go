@@ -132,8 +132,9 @@ const (
 	E_stripe_customer_is_not_valid               Code = iota
 	E_invoice_duedate_empty                      Code = iota
 
-	E_kafka_rpc_timeout Code = iota
-	E_kafka_error       Code = iota
+	E_kafka_rpc_timeout                  Code = iota
+	E_kafka_error                        Code = iota
+	E_kafka_rpc_handler_definition_error Code = iota
 
 	E_s3_call_error                   Code = iota
 	E_pdf_generate_error              Code = iota
