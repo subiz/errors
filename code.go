@@ -206,4 +206,10 @@ const (
 	E_content_id_missing Code = iota
 
 	E_fcm_token_not_found Code = iota
+
+	E_grpc_agent_call_error        Code = iota
+	E_grpc_account_call_error      Code = iota
+	E_grpc_user_call_error         Code = iota
+	E_grpc_conversation_call_error Code = iota
+	E_grpc_content_call_error      Code = iota
 )
