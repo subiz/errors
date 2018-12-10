@@ -141,9 +141,15 @@ const (
 	E_subscription_started_is_invalid Code = iota
 	E_subscription_is_nil             Code = iota
 
-	E_ticket_list_anchor_is_invalid                  Code = iota
-	E_elastic_search_error                           Code = iota
-	E_conversation_not_found                         Code = iota
+	E_ticket_list_anchor_is_invalid  Code = iota
+	E_elastic_search_error           Code = iota
+	E_conversation_not_found         Code = iota
+	E_invalid_accepter_must_be_agent Code = iota
+	E_conversation_ended             Code = iota
+
+	E_conversation_user_is_the_last_one_in_conversation Code = iota
+
+	E_event_must_be_message_event                    Code = iota
 	E_conversation_id_missing                        Code = iota
 	E_ticket_id_missing                              Code = iota
 	E_ticket_id_is_invalid                           Code = iota
@@ -178,6 +184,7 @@ const (
 	E_too_long_field                                 Code = iota
 	E_conversation_closer_is_not_in_the_conversation Code = iota
 	E_invalid_channel_id                             Code = iota
+	E_conversation_tag_not_found                     Code = iota
 
 	E_client_not_found             Code = iota
 	E_missing_redirect_url         Code = iota
