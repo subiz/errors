@@ -147,8 +147,8 @@ const (
 	E_invalid_accepter_must_be_agent Code = iota
 	E_conversation_ended             Code = iota
 
-	E_conversation_user_is_the_last_one_in_conversation Code = iota
-
+	E_user_is_the_last_one_in_conversation           Code = iota
+	E_inviter_is_not_agent                           Code = iota
 	E_event_must_be_message_event                    Code = iota
 	E_conversation_id_missing                        Code = iota
 	E_ticket_id_missing                              Code = iota
