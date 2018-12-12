@@ -52,6 +52,10 @@ func Wrap(err error, class int, code Code, v ...interface{}) *Error {
 		return e
 	}
 
+	if mye == nil {
+		return nil
+	}
+
 	if code.String() != "" && (mye.Code == "" || mye.Code == "unknown") {
 		mye.Code = code.String()
 	}
