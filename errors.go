@@ -40,8 +40,9 @@ type Error struct {
 	RequestId string `protobuf:"bytes,12,opt,name=request_id" json:"request_id,omitempty"`
 }
 
-// Wrap converts a random error to an `*errors.Error`, information of the old error stored in Root field.
-func Wrap(err error, class int, code Code, v ...interface{}) *Error {
+// Wrap converts a random error to an `*errors.Error`, information of the
+// old error stored in Root field.
+func Wrap(err error, class int, code Code, v ...interface{}) error {
 	if err == nil {
 		err = &Error{}
 	}
