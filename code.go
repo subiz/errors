@@ -220,4 +220,7 @@ const (
 	E_grpc_user_call_error         Code = iota
 	E_grpc_conversation_call_error Code = iota
 	E_grpc_content_call_error      Code = iota
+
+	E_template_message_key_not_found  Code = iota
+	E_template_message_not_is_creator Code = iota
 )
