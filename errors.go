@@ -5,15 +5,14 @@
 //
 //
 //    account/core/account.go:26
-//    /vendor/git.subiz.net/header/account/account.pb.go:3306
-//    /vendor/git.subiz.net/goutils/grpc/grpc.go:86
-//    /vendor/git.subiz.net/goutils/grpc/grpc.go:87
-//    /vendor/git.subiz.net/header/account/account.pb.go:3308
+//    /vendor/github.com/subiz/header/account/account.pb.go:3306
+//    /vendor/github.com/subiz/goutils/grpc/grpc.go:86
+//    /vendor/github.com/subiz/goutils/grpc/grpc.go:87
+//    /vendor/github.com/subiz/header/account/account.pb.go:3308
 //    /vendor/google.golang.org/grpc/server.go:681
 package errors
 
 import (
-	"encoding/json"
 	"fmt"
 	"runtime"
 	"strconv"
@@ -21,6 +20,7 @@ import (
 	"time"
 )
 
+//easyjson:json
 // Error describe an error. It implements the standard golang error interface.
 type Error struct {
 	// Give more detail about the error
@@ -116,7 +116,7 @@ func FromString(err string) *Error {
 		return New(500, E_unknown, err)
 	}
 	e := &Error{}
-	if er := json.Unmarshal([]byte(err[len("#ERR "):]), e); er != nil {
+	if er := e.UnmarshalJSON([]byte(err[len("#ERR "):])); er != nil {
 		return New(500, E_json_marshal_error, "%s, %s", er, err)
 	}
 	return e
@@ -128,7 +128,7 @@ func (e *Error) Error() string {
 		return ""
 	}
 
-	b, _ := json.Marshal(e)
+	b, _ := e.MarshalJSON()
 	return "#ERR " + string(b)
 }
 
@@ -174,7 +174,7 @@ func getStack(skip int) string {
 
 // isSystemPath tells whether a file is in system golang packages
 func isSystemPath(path string) bool {
-	if strings.Contains(path, "/git.subiz.net/errors/") {
+	if strings.Contains(path, "/github.com/subiz/errors/") {
 		return true
 	}
 	return strings.HasPrefix(path, "/usr/local/go/src")
