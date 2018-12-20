@@ -224,15 +224,19 @@ const (
 	E_template_message_key_not_found  Code = iota
 	E_template_message_not_is_creator Code = iota
 
-	E_promotion_subcription_not_is_trial Code = iota
-	E_promotion_not_found                Code = iota
-	E_promotion_code_not_found           Code = iota
-	E_promotion_only_use_for_credit      Code = iota
-	E_promotion_only_use_for_discount    Code = iota
-	E_promotion_used_by_account          Code = iota
-	E_promotion_max_number_of_uses       Code = iota
-	E_promotion_is_deleted               Code = iota
-	E_promotion_account_invalid          Code = iota
-	E_promotion_plan_invalid             Code = iota
-	E_promotion_number_of_agent_invalid  Code = iota
+	E_promotion_subcription_not_is_trial        Code = iota
+	E_promotion_not_found                       Code = iota
+	E_promotion_code_not_found                  Code = iota
+	E_promotion_only_use_for_credit             Code = iota
+	E_promotion_only_use_for_discount           Code = iota
+	E_promotion_used_by_account                 Code = iota
+	E_promotion_max_number_of_uses              Code = iota
+	E_promotion_is_deleted                      Code = iota
+	E_promotion_account_invalid                 Code = iota
+	E_promotion_plan_invalid                    Code = iota
+	E_promotion_number_of_agent_invalid         Code = iota
+	E_promotion_referral_program_agent_inactive Code = iota
+	E_promotion_add_log_bill_error              Code = iota
+	E_promotion_add_log_account_invited_error   Code = iota
+	E_promotion_referral_program_not_found      Code = iota
 )
