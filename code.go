@@ -239,4 +239,5 @@ const (
 	E_promotion_add_log_bill_error              Code = iota
 	E_promotion_add_log_account_invited_error   Code = iota
 	E_promotion_referral_program_not_found      Code = iota
+	E_referrer_code_invalid                     Code = iota
 )
