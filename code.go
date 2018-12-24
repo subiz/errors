@@ -241,4 +241,5 @@ const (
 	E_promotion_referral_program_not_found      Code = iota
 	E_referrer_code_invalid                     Code = iota
 	E_transation_exists                         Code = iota
+	E_amount_invalid                            Code = iota
 )
