@@ -242,4 +242,5 @@ const (
 	E_referrer_code_invalid                     Code = iota
 	E_transation_exists                         Code = iota
 	E_amount_invalid                            Code = iota
+	E_transaction_is_missing                    Code = iota
 )
