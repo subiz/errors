@@ -243,4 +243,11 @@ const (
 	E_transaction_exists                        Code = iota
 	E_amount_invalid                            Code = iota
 	E_transaction_is_missing                    Code = iota
+
+	E_invalid_partition_version Code = iota
+	E_invalid_partition_cluster Code = iota
+	E_invalid_partition_term Code = iota
+	E_partition_transaction_timeout = iota
+	E_error_from_partition_peer = iota
+	E_partition_node_have_not_joined_the_cluster = iota
 )
