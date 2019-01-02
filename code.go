@@ -251,8 +251,9 @@ const (
 	E_error_from_partition_peer                       = iota
 	E_partition_node_have_not_joined_the_cluster      = iota
 
-	E_file_key_is_missing  Code = iota
-	E_file_size_is_missing Code = iota
-	E_file_size_invalid    Code = iota
-	E_file_not_found       Code = iota
+	E_file_key_is_missing     Code = iota
+	E_file_size_is_missing    Code = iota
+	E_file_size_invalid       Code = iota
+	E_file_not_found          Code = iota
+	E_file_key_secret_invalid Code = iota
 )
