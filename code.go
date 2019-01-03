@@ -257,4 +257,8 @@ const (
 	E_file_not_found          Code = iota
 	E_file_key_secret_invalid Code = iota
 	E_file_type_invalid       Code = iota
+
+	E_file_error     Code = iota
+	E_tempfile_error Code = iota
+	E_invalid_css    Code = iota
 )
