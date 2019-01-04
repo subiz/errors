@@ -247,9 +247,10 @@ const (
 	E_invalid_partition_version                  Code = iota
 	E_invalid_partition_cluster                  Code = iota
 	E_invalid_partition_term                     Code = iota
-	E_partition_transaction_timeout                   = iota
-	E_error_from_partition_peer                       = iota
-	E_partition_node_have_not_joined_the_cluster      = iota
+	E_partition_rebalance_timeout                Code = iota
+	E_error_from_partition_peer                  Code = iota
+	E_partition_node_have_not_joined_the_cluster Code = iota
+	E_wrong_partition_host                       Code = iota
 
 	E_file_key_is_missing     Code = iota
 	E_file_size_is_missing    Code = iota
