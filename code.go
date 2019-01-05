@@ -251,6 +251,8 @@ const (
 	E_error_from_partition_peer                  Code = iota
 	E_partition_node_have_not_joined_the_cluster Code = iota
 	E_wrong_partition_host                       Code = iota
+	E_duplicated_partition_term                  Code = iota
+	E_worker_denied                              Code = iota
 
 	E_file_key_is_missing     Code = iota
 	E_file_size_is_missing    Code = iota
@@ -262,4 +264,7 @@ const (
 	E_file_error     Code = iota
 	E_tempfile_error Code = iota
 	E_invalid_css    Code = iota
+
+	E_send_to_abandon_chan    Code = iota
+	E_send_to_channel_timeout Code = iota
 )
