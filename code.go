@@ -267,4 +267,6 @@ const (
 
 	E_send_to_abandon_chan    Code = iota
 	E_send_to_channel_timeout Code = iota
+
+	E_too_many_subs_for_a_topic Code = iota
 )
