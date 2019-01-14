@@ -11,6 +11,7 @@ const (
 	E_missing_account_id        Code = iota
 	E_proto_marshal_error       Code = iota
 	E_database_error            Code = iota
+	E_data_not_found            Code = iota
 	E_access_deny               Code = iota
 	E_json_marshal_error        Code = iota
 	E_idempotency_input_changed Code = iota
