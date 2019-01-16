@@ -274,4 +274,7 @@ const (
 
 	E_endpoint_not_found Code = iota
 	E_invalid_url        Code = iota
+
+	E_facebook_call_error Code = iota
+
 )
