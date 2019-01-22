@@ -277,4 +277,5 @@ const (
 
 	E_facebook_call_error Code = iota
 
+	E_invalid_oauth_scope Code = iota
 )
