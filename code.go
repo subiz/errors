@@ -277,5 +277,7 @@ const (
 
 	E_facebook_call_error Code = iota
 
-	E_invalid_oauth_scope Code = iota
+	E_invalid_oauth_scope   Code = iota
+	E_setting_bot_exists    Code = iota
+	E_setting_bot_not_found Code = iota
 )
