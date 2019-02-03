@@ -48,6 +48,7 @@ const (
 	E_body_parsing_error       Code = iota
 	E_query_parsing_error      Code = iota
 	E_form_parsing_error       Code = iota
+	E_invalid_http_method      Code = iota
 	E_connection_id_is_invalid Code = iota
 
 	E_agent_id_is_invalid Code = iota
@@ -277,7 +278,8 @@ const (
 
 	E_facebook_call_error Code = iota
 
-	E_invalid_oauth_scope   Code = iota
-	E_setting_bot_exists    Code = iota
-	E_setting_bot_not_found Code = iota
+	E_invalid_oauth_scope    Code = iota
+	E_setting_bot_exists     Code = iota
+	E_setting_bot_not_found  Code = iota
+	E_unconverted_v3_account Code = iota
 )
