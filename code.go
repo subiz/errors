@@ -282,4 +282,6 @@ const (
 	E_setting_bot_exists     Code = iota
 	E_setting_bot_not_found  Code = iota
 	E_unconverted_v3_account Code = iota
+
+	E_invalid_event_type Code = iota
 )
