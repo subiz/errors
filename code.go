@@ -284,4 +284,6 @@ const (
 	E_unconverted_v3_account Code = iota
 
 	E_invalid_event_type Code = iota
+
+	E_server_error Code = iota
 )
