@@ -286,4 +286,6 @@ const (
 	E_invalid_event_type Code = iota
 
 	E_server_error Code = iota
+
+	E_user_not_login Code = iota
 )
