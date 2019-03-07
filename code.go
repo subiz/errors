@@ -288,4 +288,8 @@ const (
 	E_server_error Code = iota
 
 	E_user_not_login Code = iota
+
+	E_invalid_report_range Code = iota
+	E_invalid_report_metric Code = iota
+
 )
