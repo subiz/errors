@@ -292,4 +292,5 @@ const (
 	E_invalid_report_range Code = iota
 	E_invalid_report_metric Code = iota
 
+	E_subiz_call_error  Code = iota
 )
