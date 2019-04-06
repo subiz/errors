@@ -289,8 +289,17 @@ const (
 
 	E_user_not_login Code = iota
 
-	E_invalid_report_range Code = iota
+	E_invalid_report_range  Code = iota
 	E_invalid_report_metric Code = iota
 
-	E_subiz_call_error  Code = iota
+	E_subiz_call_error Code = iota
+
+	E_endchat_bot_setting_after_agent_message_too_low  Code = iota
+	E_endchat_bot_setting_after_agent_message_too_high Code = iota
+	E_endchat_bot_setting_after_user_message_too_low   Code = iota
+	E_endchat_bot_setting_after_user_message_too_high  Code = iota
+	E_endchat_bot_setting_after_any_message_too_low    Code = iota
+	E_endchat_bot_setting_after_any_message_too_high   Code = iota
+	E_endchat_bot_setting_age_too_low                  Code = iota
+	E_endchat_bot_setting_age_too_high                 Code = iota
 )
