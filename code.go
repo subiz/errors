@@ -146,6 +146,7 @@ const (
 	E_ticket_list_anchor_is_invalid  Code = iota
 	E_elastic_search_error           Code = iota
 	E_conversation_not_found         Code = iota
+	E_chain_is_active                Code = iota
 	E_invalid_conversation_no_user   Code = iota
 	E_invalid_accepter_must_be_agent Code = iota
 	E_conversation_ended             Code = iota
