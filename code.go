@@ -303,4 +303,6 @@ const (
 	E_endchat_bot_setting_after_any_message_too_high   Code = iota
 	E_endchat_bot_setting_age_too_low                  Code = iota
 	E_endchat_bot_setting_age_too_high                 Code = iota
+
+	E_webhook_verification_error Code = iota
 )
