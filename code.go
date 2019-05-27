@@ -305,4 +305,7 @@ const (
 	E_endchat_bot_setting_age_too_high                 Code = iota
 
 	E_webhook_verification_error Code = iota
+	E_wrong_verification_key Code = iota
+	E_unreachable_webhook Code = iota
+	E_webhook_timeout Code = iota
 )
