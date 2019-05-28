@@ -13,6 +13,7 @@
 package errors
 
 import (
+	"encoding/json"
 	"fmt"
 	"runtime"
 	"strconv"
@@ -116,7 +117,7 @@ func FromString(err string) *Error {
 		return New(500, E_unknown, err)
 	}
 	e := &Error{}
-	if er := e.UnmarshalJSON([]byte(err[len("#ERR "):])); er != nil {
+	if er := json.Unmarshal([]byte(err[len("#ERR "):]), e); er != nil {
 		return New(500, E_json_marshal_error, "%s, %s", er, err)
 	}
 	return e
@@ -128,15 +129,15 @@ func (e *Error) Error() string {
 		return ""
 	}
 
-	b, _ := e.MarshalJSON()
+	b, _ := json.Marshal(e)
 	return "#ERR " + string(b)
 }
 
-// getStack returns 20 closest stacktrace, included file paths and line numbers
+// getStack returns 10 closest stacktrace, included file paths and line numbers
 // it will ignore all system path, path which is vendor is striped to /vendor/
 // skip: number of stack ignored
 func getStack(skip int) string {
-	stack := make([]uintptr, 20)
+	stack := make([]uintptr, 10)
 	var sb strings.Builder
 	// skip one system stack, the this current stack line
 	length := runtime.Callers(2+skip, stack[:])
