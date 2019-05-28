@@ -181,7 +181,7 @@ func isSystemPath(path string) bool {
 	return strings.HasPrefix(path, "/usr/local/go/src")
 }
 
-// trimToPrefix remove all the characters before the prefix
+// trimToPrefix removes all the characters before the prefix
 // its return the original string if not found prefix in str
 func trimToPrefix(str, prefix string) string {
 	i := strings.Index(str, prefix)
@@ -191,7 +191,7 @@ func trimToPrefix(str, prefix string) string {
 	return str[i:]
 }
 
-// trimOutPrefix remove all the characters before AND the prefix
+// trimOutPrefix removes all the characters before AND the prefix
 // its return the original string if not found prefix in str
 func trimOutPrefix(str, prefix string) string {
 	i := strings.Index(str, prefix)
@@ -199,4 +199,19 @@ func trimOutPrefix(str, prefix string) string {
 		return str
 	}
 	return str[i+len(prefix):]
+}
+
+// CompareCode tells whether the code of the given error equals the given
+// code
+func CompareCode(err error, code Code) bool {
+	mye, ok := err.(*Error)
+	if !ok {
+		return false
+	}
+
+	if mye == nil {
+		return false
+	}
+
+	return mye.Code == code.String()
 }

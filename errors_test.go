@@ -1,6 +1,7 @@
 package errors
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -23,7 +24,7 @@ func TestMarshal(t *testing.T) {
 }
 
 func foo() error   { return bar() }
-func bar() error  { return New(500, E_unknown) }
+func bar() error   { return New(500, E_unknown) }
 func hello() error { return foo() }
 
 func TestErrorStack(t *testing.T) {
@@ -94,12 +95,32 @@ func TestTrimToPrefix(t *testing.T) {
 	}
 }
 
+func TestCompareCode(t *testing.T) {
+	tcs := []struct {
+		err    error
+		code   Code
+		expect bool
+	}{
+		{fmt.Errorf(""), E_unknown, false},
+		{fmt.Errorf(""), E_database_error, false},
+		{nil, E_unknown, false},
+		{nil, E_database_error, false},
+		{New(400, E_database_error), E_unknown, false},
+		{New(400, E_database_error), E_database_error, true},
+	}
+
+	for _, tc := range tcs {
+		if out := CompareCode(tc.err, tc.code); out != tc.expect {
+			t.Errorf("expect %v, got %v, for err %v and code %s", tc.expect, out, tc.err, tc.code)
+		}
+	}
+}
+
 func BenchmarkGetStack(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		getStack(0)
 	}
 }
-
 
 func BenchmarkTrimToPrefix(b *testing.B) {
 	for n := 0; n < b.N; n++ {
