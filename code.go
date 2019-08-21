@@ -155,6 +155,7 @@ const (
 	E_inviter_is_not_agent                           Code = iota
 	E_event_must_be_message_event                    Code = iota
 	E_conversation_id_missing                        Code = iota
+	E_missing_conversation_id                        Code = iota
 	E_ticket_id_missing                              Code = iota
 	E_ticket_id_is_invalid                           Code = iota
 	E_conversation_id_is_invalid                     Code = iota
@@ -167,6 +168,10 @@ const (
 	E_limit_is_negative                              Code = iota
 	E_invalid_integration                            Code = iota
 	E_message_not_found                              Code = iota
+	E_missing_pong                                   Code = iota
+	E_invalid_pong_type                              Code = iota
+	E_invalid_message_type                           Code = iota
+	E_missing_message_id                             Code = iota
 	E_user_is_not_in_the_conversation                Code = iota
 	E_duplicated_message_received_error              Code = iota
 	E_message_id_is_invalid                          Code = iota
@@ -305,7 +310,7 @@ const (
 	E_endchat_bot_setting_age_too_high                 Code = iota
 
 	E_webhook_verification_error Code = iota
-	E_wrong_verification_key Code = iota
-	E_unreachable_webhook Code = iota
-	E_webhook_timeout Code = iota
+	E_wrong_verification_key     Code = iota
+	E_unreachable_webhook        Code = iota
+	E_webhook_timeout            Code = iota
 )
