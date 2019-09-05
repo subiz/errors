@@ -3,6 +3,7 @@ package errors
 import (
 	"fmt"
 	"testing"
+	"encoding/json"
 )
 
 type mes struct {
@@ -13,6 +14,8 @@ func (m mes) String() string { return m.s }
 
 func TestMarshal(t *testing.T) {
 	err := New(500, E_unknown, "thanh %d", 4)
+	b, _ := json.Marshal(err)
+	println(string(b))
 	derr := FromString(err.Error())
 	if err.Class != derr.Class ||
 		err.Stack != derr.Stack ||
