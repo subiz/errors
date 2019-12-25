@@ -1,3 +1,13 @@
+install tools:
+
+	go get golang.org/x/tools/cmd/stringer
+
+run:
+
+	go generate
+
+
+
 # Golang error with call stack
 
 # [![GoDoc](https://godoc.org/github.com/subiz/errors?status.svg)](http://godoc.org/github.com/subiz/errors)
