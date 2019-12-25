@@ -315,4 +315,6 @@ const (
 	E_wrong_verification_key     Code = iota
 	E_unreachable_webhook        Code = iota
 	E_webhook_timeout            Code = iota
+
+	E_goal_status_invalid Code = iota
 )
