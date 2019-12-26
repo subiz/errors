@@ -316,5 +316,6 @@ const (
 	E_unreachable_webhook        Code = iota
 	E_webhook_timeout            Code = iota
 
-	E_goal_status_invalid Code = iota
+	E_goal_status_invalid   Code = iota
+	E_not_found_campaign_id Code = iota
 )
