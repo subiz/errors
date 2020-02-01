@@ -31,6 +31,8 @@ const (
 	E_content_type_is_not_json  Code = iota
 	E_missing_url               Code = iota
 
+	E_empty_alias Code = iota
+
 	E_token_expired                         Code = iota
 	E_agent_is_not_active                   Code = iota
 	E_wrong_password                        Code = iota
@@ -318,4 +320,8 @@ const (
 
 	E_goal_status_invalid   Code = iota
 	E_not_found_campaign_id Code = iota
+
+	E_invalid_poll_token   Code = iota
+	E_expired_poll_token   Code = iota
+	E_dead_poll_connection Code = iota
 )
