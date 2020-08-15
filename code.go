@@ -321,7 +321,8 @@ const (
 	E_goal_status_invalid   Code = iota
 	E_not_found_campaign_id Code = iota
 
-	E_invalid_poll_token   Code = iota
-	E_expired_poll_token   Code = iota
-	E_dead_poll_connection Code = iota
+	E_invalid_poll_token               Code = iota
+	E_expired_poll_token               Code = iota
+	E_dead_poll_connection             Code = iota
+	E_free_account_cannot_invite_agent Code = iota
 )
