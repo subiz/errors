@@ -285,6 +285,7 @@ const (
 	E_invalid_url        Code = iota
 
 	E_facebook_call_error Code = iota
+	E_facebook_invalid_access_token Code = iota
 
 	E_zalo_call_error Code = iota
 
