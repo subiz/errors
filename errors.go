@@ -49,6 +49,15 @@ func Wrap(err error, class int, code Code, v ...interface{}) error {
 	}
 	mye, ok := err.(*Error)
 	if !ok {
+		// try to cast err
+		errstr := err.Error()
+		if strings.HasPrefix(errstr, "#ERR ") {
+			mye = &Error{}
+			if er := json.Unmarshal([]byte(errstr[len("#ERR "):]), mye); er == nil {
+				return mye
+			}
+		}
+
 		e := New(class, code, append(v, err.Error()))
 		e.Root = err.Error()
 		return e
